@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Degree Adventure - Bu Yovita Asti Pratiwi</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Fredoka & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Canvas Confetti Library for Gamification -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b132b;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+
+        /* Deep Blue, Purple, and Gold Color Theme Gradients */
+        .bg-cosmic-dark {
+            background: linear-gradient(135deg, #090e17 0%, #1c1a40 50%, #0f172a 100%);
+        }
+        .bg-cosmic-card {
+            background: rgba(28, 26, 64, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        .bg-purple-gradient {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        }
+
+        /* Smooth CSS Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.8); }
+        }
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(55px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(55px) rotate(-360deg); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 2.5s infinite;
+        }
+        .animate-orbit {
+            animation: orbit 14s linear infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5b21b6;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
+        }
+
+        /* Drag and Drop Zone Styling */
+        .draggable {
+            cursor: grab;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .draggable:active {
+            cursor: grabbing;
+        }
+        .dropzone.drag-over {
+            background-color: rgba(245, 158, 11, 0.2) !important;
+            border-color: #f59e0b !important;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-cosmic-dark min-h-screen flex flex-col justify-between text-base antialiased">
+
+    <!-- HEADER & NAVBAR -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-amber-500/30 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- App Brand / Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-purple-600 to-indigo-600 flex items-center justify-center text-slate-950 font-bold text-2xl shadow-lg animate-pulse-glow">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-heading text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-purple-200 to-amber-400">
+                            Comparison Degree
+                        </h1>
+                        <p class="text-xs text-amber-300/90 font-medium tracking-wide">
+                            <i class="fa-solid fa-star mr-1 text-amber-400"></i> English SMP Kelas VIII • Bu Yovita
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex space-x-2">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn active flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 bg-amber-500 text-slate-950 font-semibold shadow-md">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </button>
+                    <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-btn flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 text-slate-300 hover:text-white hover:bg-purple-900/50">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>Tujuan</span>
+                    </button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 text-slate-300 hover:text-white hover:bg-purple-900/50">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Materi</span>
+                    </button>
+                    <button onclick="switchTab('kuis')" id="nav-kuis" class="nav-btn flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 text-slate-300 hover:text-white hover:bg-purple-900/50">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>Kuis Interaktif</span>
+                    </button>
+                    <button onclick="switchTab('dragdrop')" id="nav-dragdrop" class="nav-btn flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 text-slate-300 hover:text-white hover:bg-purple-900/50">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                        <span>Drag & Drop</span>
+                    </button>
+                    <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn flex items-center space-x-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 text-slate-300 hover:text-white hover:bg-purple-900/50">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <span>Tentang</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Navigation Toggle Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl text-amber-300 hover:bg-purple-900/50 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-950 border-b border-amber-500/20 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-house w-5 text-amber-400"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="switchTab('tujuan'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-bullseye w-5 text-amber-400"></i>
+                <span>Tujuan Pembelajaran</span>
+            </button>
+            <button onclick="switchTab('materi'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-book-open w-5 text-amber-400"></i>
+                <span>Materi Pembelajaran</span>
+            </button>
+            <button onclick="switchTab('kuis'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-gamepad w-5 text-amber-400"></i>
+                <span>Kuis Interaktif</span>
+            </button>
+            <button onclick="switchTab('dragdrop'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-puzzle-piece w-5 text-amber-400"></i>
+                <span>Drag & Drop Activity</span>
+            </button>
+            <button onclick="switchTab('tentang'); toggleMobileMenu()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-left text-slate-200 hover:bg-purple-900/50">
+                <i class="fa-solid fa-chalkboard-user w-5 text-amber-400"></i>
+                <span>Tentang Pengembang</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- ================= TAB 1: HOME ================= -->
+        <section id="tab-home" class="tab-content space-y-12">
+            <!-- Hero Banner Card -->
+            <div class="relative rounded-3xl p-8 sm:p-12 overflow-hidden bg-gradient-to-r from-purple-950/90 via-slate-900/90 to-indigo-950/90 border border-amber-400/30 shadow-2xl">
+                <div class="absolute -top-10 -right-10 w-52 h-52 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -left-10 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-sm font-semibold">
+                            <i class="fa-solid fa-rocket text-amber-400"></i>
+                            <span>Petualangan Bahasa Inggris Interaktif</span>
+                        </div>
+                        <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white leading-tight">
+                            Kuasai <span class="text-amber-400">Comparison Degree</span> <br> dengan Mudah & Seru!
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+                            Halo Ananda Hebat Kelas VIII! Selamat datang di media pembelajaran interaktif bersama <strong>Bu Yovita Asti Pratiwi</strong>. Mari pelajari cara membandingkan hal-hal di sekitarmu menggunakan <span class="text-amber-300 font-semibold">Positive</span>, <span class="text-amber-300 font-semibold">Comparative</span>, dan <span class="text-amber-300 font-semibold">Superlative Degree</span>! 🌟
+                        </p>
+                        
+                        <!-- CTA Action Buttons -->
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="switchTab('materi')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-base shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                <i class="fa-solid fa-book-open-reader mr-2"></i> Mulai Pelajari Materi
+                            </button>
+                            <button onclick="switchTab('kuis')" class="px-6 py-3.5 rounded-2xl bg-purple-900/80 hover:bg-purple-800 text-amber-300 font-bold text-base border border-amber-400/30 shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                <i class="fa-solid fa-gamepad mr-2"></i> Mainkan Kuis & Game
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hero Animated Cartoon Illustration -->
+                    <div class="lg:col-span-5 flex justify-center relative">
+                        <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full border-2 border-dashed border-amber-400/30 animate-spin" style="animation-duration: 25s;"></div>
+                            
+                            <div class="w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-gradient-to-tr from-purple-700 via-indigo-600 to-amber-400 flex items-center justify-center shadow-2xl animate-float">
+                                <i class="fa-solid fa-spell-check text-6xl sm:text-7xl text-slate-950/80"></i>
+                            </div>
+
+                            <!-- Decorative Floating Badges -->
+                            <div class="absolute top-2 left-4 w-14 h-14 bg-amber-400 text-slate-950 rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
+                                -ER
+                            </div>
+                            <div class="absolute bottom-4 right-4 w-16 h-16 bg-purple-600 text-amber-300 rounded-2xl flex items-center justify-center font-bold text-lg border border-amber-400/50 shadow-lg">
+                                -EST
+                            </div>
+                            <div class="absolute top-1/2 -right-2 w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center font-bold text-xs shadow-lg">
+                                MORE
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Core Degrees Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-purple-500/30 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-xl bg-purple-900/80 text-amber-400 flex items-center justify-center text-2xl mb-4 shadow">
+                        <i class="fa-solid fa-equals"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-amber-300 mb-2">1. Positive Degree</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Membandingkan dua hal yang memiliki tingkat kualitas <strong>SAMA / SETARA</strong>. <br>
+                        <span class="text-amber-400 font-mono text-xs mt-2 block">Contoh: as fast as</span>
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-purple-500/30 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-xl bg-purple-900/80 text-amber-400 flex items-center justify-center text-2xl mb-4 shadow">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-amber-300 mb-2">2. Comparative Degree</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Membandingkan dua hal di mana satu hal <strong>LEBIH</strong> daripada hal lainnya. <br>
+                        <span class="text-amber-400 font-mono text-xs mt-2 block">Contoh: faster than / more famous</span>
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-purple-500/30 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-xl bg-purple-900/80 text-amber-400 flex items-center justify-center text-2xl mb-4 shadow">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-amber-300 mb-2">3. Superlative Degree</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Menyatakan hal yang <strong>PALING / TER-</strong> di antara tiga hal atau lebih. <br>
+                        <span class="text-amber-400 font-mono text-xs mt-2 block">Contoh: the fastest / the most famous</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: TUJUAN PEMBELAJARAN ================= -->
+        <section id="tab-tujuan" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-900/60 text-amber-300 text-sm font-semibold border border-purple-500/30">
+                    <i class="fa-solid fa-bullseye text-amber-400"></i>
+                    <span>Capaian & Indikator Pembelajaran</span>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Tujuan Pembelajaran</h2>
+                <p class="text-slate-300 text-sm sm:text-base">Target capaian pembelajaran materi Comparison Degree untuk siswa Kelas VIII SMP.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <!-- Objective Card 1 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-amber-400/20 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-xl shrink-0 font-bold">
+                        1
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-heading text-lg font-bold text-amber-300">Mengidentifikasi Tingkat Perbandingan</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Siswa mampu mengidentifikasi fungsi sosial, struktur teks, dan unsur kebahasaan kalimat perbandingan (Positive, Comparative, Superlative) secara tepat.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objective Card 2 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-amber-400/20 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl shrink-0 font-bold">
+                        2
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-heading text-lg font-bold text-amber-300">Membedakan Aturan Pembentukan Kata</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Siswa mampu membedakan penggunaan akhiran <em>-er / -est</em> (1 suku kata) dan kata kunci <em>more / most</em> (2+ suku kata) serta kata sifat tidak beraturan (*Irregular Adjectives*).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objective Card 3 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-amber-400/20 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xl shrink-0 font-bold">
+                        3
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-heading text-lg font-bold text-amber-300">Menyusun Kalimat Pembandingan</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Siswa mampu menyusun kalimat pembandingan kontekstual secara lisan maupun tertulis terkait benda, hewan, dan objek sekitar.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objective Card 4 -->
+                <div class="bg-cosmic-card p-6 rounded-2xl border border-amber-400/20 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xl shrink-0 font-bold">
+                        4
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-heading text-lg font-bold text-amber-300">Evaluasi & Praktik Gamifikasi</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Siswa mampu menyelesaikan latihan kuis dan permainan interaktif Drag & Drop dengan pencapaian Kriteria Ketuntasan Minimal (KKTP) 75.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: MATERI ================= -->
+        <section id="tab-materi" class="tab-content hidden space-y-10">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-900/60 text-amber-300 text-sm font-semibold border border-purple-500/30">
+                    <i class="fa-solid fa-book-bookmark text-amber-400"></i>
+                    <span>Modul Interaktif</span>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Materi Comparison Degree</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    Comparison Degree adalah bentuk kata sifat (*adjective*) yang digunakan untuk membandingkan tingkat kualitas dari orang, benda, atau hewan.
+                </p>
+            </div>
+
+            <!-- Material Card Breakdown Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 1. Positive Degree -->
+                <div class="bg-cosmic-card rounded-2xl p-6 border border-amber-400/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs font-bold rounded-full border border-blue-500/30">Tingkat Sama</span>
+                            <i class="fa-solid fa-equals text-amber-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">1. Positive Degree</h3>
+                        <p class="text-sm text-slate-300 mb-4">
+                            Digunakan saat dua objek memiliki tingkat sifat yang <strong>SAMA / SETARA</strong>.
+                        </p>
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-purple-500/30 space-y-2 mb-4">
+                            <div class="text-xs text-amber-300 font-mono font-semibold">Rumus Kalimat:</div>
+                            <div class="text-sm font-bold text-amber-400 font-mono">as + Adjective + as</div>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Budi is <span class="text-amber-300 font-bold">as tall as</span> Ani.</li>
+                            <li>A cat is <span class="text-amber-300 font-bold">as cute as</span> a rabbit.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Comparative Degree -->
+                <div class="bg-cosmic-card rounded-2xl p-6 border border-amber-400/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full border border-purple-500/30">Tingkat Lebih</span>
+                            <i class="fa-solid fa-arrow-trend-up text-amber-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">2. Comparative Degree</h3>
+                        <p class="text-sm text-slate-300 mb-4">
+                            Digunakan untuk menyatakan suatu objek <strong>LEBIH</strong> daripada objek lain.
+                        </p>
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-purple-500/30 space-y-2 mb-4">
+                            <div class="text-xs text-amber-300 font-mono font-semibold">1 Suku Kata (Syllable):</div>
+                            <div class="text-xs font-bold text-amber-400 font-mono mb-2">Adjective + -er + than</div>
+                            <div class="text-xs text-amber-300 font-mono font-semibold">2+ Suku Kata (Syllables):</div>
+                            <div class="text-xs font-bold text-amber-400 font-mono">more + Adjective + than</div>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>An plane is <span class="text-amber-300 font-bold">faster than</span> a car.</li>
+                            <li>Gold is <span class="text-amber-300 font-bold">more expensive than</span> silver.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Superlative Degree -->
+                <div class="bg-cosmic-card rounded-2xl p-6 border border-amber-400/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-full border border-amber-500/30">Tingkat Paling</span>
+                            <i class="fa-solid fa-crown text-amber-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">3. Superlative Degree</h3>
+                        <p class="text-sm text-slate-300 mb-4">
+                            Digunakan untuk menyatakan objek yang <strong>PALING / TER-</strong> di antara semuanya.
+                        </p>
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-purple-500/30 space-y-2 mb-4">
+                            <div class="text-xs text-amber-300 font-mono font-semibold">1 Suku Kata (Syllable):</div>
+                            <div class="text-xs font-bold text-amber-400 font-mono mb-2">the + Adjective + -est</div>
+                            <div class="text-xs text-amber-300 font-mono font-semibold">2+ Suku Kata (Syllables):</div>
+                            <div class="text-xs font-bold text-amber-400 font-mono">the most + Adjective</div>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>The blue whale is <span class="text-amber-300 font-bold">the biggest</span> animal.</li>
+                            <li>Borobudur is <span class="text-amber-300 font-bold">the most famous</span> temple.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Adjective List with Search & Text-To-Speech -->
+            <div class="bg-cosmic-card rounded-3xl p-6 sm:p-8 border border-amber-400/30 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-amber-400"></i>
+                            Kamus Kata Sifat Interaktif
+                        </h3>
+                        <p class="text-sm text-slate-300">Klik tombol audio <i class="fa-solid fa-volume-high text-amber-400"></i> untuk mendengar pelafalan dalam Bahasa Inggris!</p>
+                    </div>
+                    <!-- Search Input -->
+                    <div class="relative min-w-[240px]">
+                        <input type="text" id="table-search" onkeyup="filterAdjectiveTable()" placeholder="Cari kata sifat..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-purple-500/40 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-400 text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="overflow-x-auto rounded-xl border border-purple-900/60">
+                    <table class="w-full text-left text-sm text-slate-200">
+                        <thead class="bg-purple-950/90 text-amber-300 font-heading text-base border-b border-purple-800">
+                            <tr>
+                                <th class="p-3.5">Positive (Dasar)</th>
+                                <th class="p-3.5">Comparative (Lebih)</th>
+                                <th class="p-3.5">Superlative (Paling)</th>
+                                <th class="p-3.5">Arti (Bahasa Indonesia)</th>
+                                <th class="p-3.5 text-center">Audio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adjective-table-body" class="divide-y divide-purple-900/40 bg-slate-900/50">
+                            <!-- Rows loaded via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: KUIS INTERAKTIF ================= -->
+        <section id="tab-kuis" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-900/60 text-amber-300 text-sm font-semibold border border-purple-500/30">
+                    <i class="fa-solid fa-gamepad text-amber-400"></i>
+                    <span>Uji Pemahaman</span>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Kuis Interaktif Comparison Degree</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    Jawablah 5 soal pilihan ganda di bawah ini. Dapatkan skor tinggi untuk membuka Sertifikat Kelulusan Digital!
+                </p>
+            </div>
+
+            <!-- Quiz Card Shell -->
+            <div id="quiz-container" class="max-w-3xl mx-auto bg-cosmic-card rounded-3xl p-6 sm:p-10 border border-amber-400/30 shadow-2xl relative">
+                <!-- Quiz Progress Bar -->
+                <div class="mb-8 space-y-3">
+                    <div class="flex justify-between items-center text-sm font-medium">
+                        <span id="quiz-progress-text" class="text-amber-300 font-semibold">Soal 1 dari 5</span>
+                        <span id="quiz-score-badge" class="px-3 py-1 rounded-full bg-purple-900 text-amber-300 text-xs font-bold border border-amber-400/30">Skor: 0</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-purple-500/30">
+                        <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-amber-400 transition-all duration-500" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Title -->
+                <div class="mb-8">
+                    <h3 id="quiz-question-text" class="font-heading text-xl sm:text-2xl font-bold text-white leading-relaxed">
+                        <!-- Loaded dynamically -->
+                    </h3>
+                </div>
+
+                <!-- Multiple Choice Options -->
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-4 mb-8">
+                    <!-- Options injected dynamically -->
+                </div>
+
+                <!-- Explanation Feedback Box -->
+                <div id="quiz-feedback-box" class="hidden p-4 rounded-xl mb-6 text-sm font-semibold border flex items-center space-x-3">
+                    <i id="quiz-feedback-icon" class="text-xl"></i>
+                    <span id="quiz-feedback-text"></span>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex justify-between items-center pt-4 border-t border-purple-900/60">
+                    <button id="quiz-prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Sebelumnya
+                    </button>
+                    <button id="quiz-next-btn" onclick="nextQuestion()" class="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm shadow-md transition">
+                        Selanjutnya <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Modal -->
+            <div id="quiz-result-modal" class="hidden max-w-2xl mx-auto bg-cosmic-card rounded-3xl p-8 border-2 border-amber-400 text-center space-y-6 shadow-2xl">
+                <div class="w-20 h-20 bg-amber-400/20 text-amber-300 rounded-full flex items-center justify-center text-4xl mx-auto animate-bounce">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3 class="font-heading text-3xl font-bold text-white">Selamat! Kuis Selesai</h3>
+                <p class="text-slate-300 text-sm">Kamu telah berhasil menyelesaikan Kuis Interaktif Comparison Degree!</p>
+
+                <!-- Final Score Display -->
+                <div class="bg-slate-900/90 p-6 rounded-2xl border border-amber-400/40 max-w-sm mx-auto">
+                    <div class="text-xs text-amber-300 font-bold uppercase tracking-wider mb-1">Skor Akhir Kamu</div>
+                    <div id="final-score-text" class="font-heading text-5xl font-extrabold text-amber-400">0</div>
+                    <div id="final-score-msg" class="text-xs text-slate-300 mt-2">Hebat sekali!</div>
+                </div>
+
+                <!-- Certificate Name Form -->
+                <div class="max-w-md mx-auto space-y-3">
+                    <label class="block text-xs text-amber-300 text-left font-semibold">Masukkan Nama Lengkap untuk Sertifikat Digital:</label>
+                    <input type="text" id="student-name-input" placeholder="Nama Lengkap Siswa..." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-purple-500 text-white text-sm focus:outline-none focus:border-amber-400">
+                    <button onclick="generateCertificate()" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold rounded-xl text-sm hover:from-amber-300 hover:to-amber-400 transition shadow-lg">
+                        <i class="fa-solid fa-file-certificate mr-2"></i> Buat Sertifikat Digital
+                    </button>
+                </div>
+
+                <div class="pt-2">
+                    <button onclick="resetQuiz()" class="text-xs text-amber-300 underline hover:text-amber-200">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Coba Kuis Lagi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Certificate Printable Layout -->
+            <div id="certificate-display" class="hidden max-w-2xl mx-auto bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-8 rounded-3xl border-4 border-amber-400 shadow-2xl text-center space-y-6 relative overflow-hidden">
+                <div class="border-2 border-dashed border-amber-400/60 p-6 rounded-2xl">
+                    <i class="fa-solid fa-graduation-cap text-4xl text-amber-400 mb-2"></i>
+                    <h4 class="font-heading text-xs tracking-widest text-amber-300 uppercase">Sertifikat Penghargaan Media Interaktif</h4>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white my-3">COMPARISON DEGREE MASTER</h2>
+                    <p class="text-xs text-slate-300">Sertifikat ini diberikan secara bangga kepada:</p>
+                    <div id="cert-name" class="font-heading text-2xl font-extrabold text-amber-300 my-2 underline decoration-amber-400">
+                        [Nama Siswa]
+                    </div>
+                    <p class="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
+                        Telah berhasil menguasai materi Comparison Degree Bahasa Inggris Kelas VIII SMP dengan hasil evaluasi yang sangat memuaskan.
+                    </p>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-purple-800 text-left text-xs">
+                        <div>
+                            <div class="text-slate-400">Guru Pengampu:</div>
+                            <div class="font-bold text-amber-300">Yovita Asti Pratiwi</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-slate-400">Tanggal:</div>
+                            <div id="cert-date" class="font-bold text-amber-300">--</div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="window.print()" class="px-6 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-600 text-white font-bold text-xs shadow">
+                    <i class="fa-solid fa-print mr-2"></i> Cetak / Simpan Sertifikat
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: DRAG AND DROP ================= -->
+        <section id="tab-dragdrop" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-900/60 text-amber-300 text-sm font-semibold border border-purple-500/30">
+                    <i class="fa-solid fa-puzzle-piece text-amber-400"></i>
+                    <span>Aktivitas Game</span>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Drag & Drop Sort Game</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    Tarik (drag) atau klik kata sifat dari pilihan di bawah, lalu kelompokkan ke dalam kategori yang sesuai!
+                </p>
+            </div>
+
+            <!-- Game Board Container -->
+            <div class="bg-cosmic-card rounded-3xl p-6 sm:p-8 border border-amber-400/30 space-y-8 shadow-2xl">
+                <!-- Source Pool -->
+                <div>
+                    <h3 class="font-heading text-sm font-bold text-amber-300 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                        Pilihan Kata Sifat (Klik atau Tarik Kata Sifat Ke Kotak Kategori):
+                    </h3>
+                    <div id="drag-source-pool" class="flex flex-wrap gap-3 p-4 bg-slate-900/80 rounded-2xl border border-purple-800 min-h-[80px] items-center">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+
+                <!-- Drop Category Zones -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Positive Zone -->
+                    <div class="space-y-3">
+                        <div class="p-3 bg-blue-900/60 rounded-xl border border-blue-400/40 text-center font-heading font-bold text-blue-200 text-sm">
+                            <i class="fa-solid fa-equals mr-1"></i> Positive Degree
+                        </div>
+                        <div id="dropzone-positive" data-category="positive" class="dropzone min-h-[180px] p-4 rounded-2xl bg-slate-900/50 border-2 border-dashed border-blue-500/40 flex flex-col gap-2 transition">
+                        </div>
+                    </div>
+
+                    <!-- Comparative Zone -->
+                    <div class="space-y-3">
+                        <div class="p-3 bg-purple-900/60 rounded-xl border border-purple-400/40 text-center font-heading font-bold text-purple-200 text-sm">
+                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> Comparative Degree
+                        </div>
+                        <div id="dropzone-comparative" data-category="comparative" class="dropzone min-h-[180px] p-4 rounded-2xl bg-slate-900/50 border-2 border-dashed border-purple-500/40 flex flex-col gap-2 transition">
+                        </div>
+                    </div>
+
+                    <!-- Superlative Zone -->
+                    <div class="space-y-3">
+                        <div class="p-3 bg-amber-900/60 rounded-xl border border-amber-400/40 text-center font-heading font-bold text-amber-200 text-sm">
+                            <i class="fa-solid fa-crown mr-1"></i> Superlative Degree
+                        </div>
+                        <div id="dropzone-superlative" data-category="superlative" class="dropzone min-h-[180px] p-4 rounded-2xl bg-slate-900/50 border-2 border-dashed border-amber-500/40 flex flex-col gap-2 transition">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Check Answers Action Buttons -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-purple-900">
+                    <button onclick="resetDragGame()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Reset Permainan
+                    </button>
+                    <button onclick="checkDragGame()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 text-sm font-bold shadow-lg transition">
+                        <i class="fa-solid fa-check-double mr-2"></i> Periksa Jawaban Saya
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 6: TENTANG ================= -->
+        <section id="tab-tentang" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-900/60 text-amber-300 text-sm font-semibold border border-purple-500/30">
+                    <i class="fa-solid fa-chalkboard-user text-amber-400"></i>
+                    <span>Informasi Media & Pengembang</span>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">Tentang Media Pembelajaran</h2>
+                <p class="text-slate-300 text-sm sm:text-base">Membangun media digital interaktif yang inklusif, inovatif, dan menyenangkan bagi siswa SMP.</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="max-w-4xl mx-auto bg-cosmic-card rounded-3xl p-8 border border-amber-400/30 shadow-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <!-- Profile Avatar Visual -->
+                    <div class="md:col-span-4 flex flex-col items-center text-center space-y-3">
+                        <div class="w-36 h-36 rounded-full bg-gradient-to-tr from-amber-400 via-purple-600 to-indigo-600 p-1.5 shadow-2xl animate-pulse-glow">
+                            <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-amber-300 text-5xl">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-white">Yovita Asti Pratiwi</h3>
+                        <span class="px-3 py-1 bg-purple-900/80 text-amber-300 text-xs font-semibold rounded-full border border-purple-500/40">
+                            Guru Bahasa Inggris SMP
+                        </span>
+                    </div>
+
+                    <!-- Developer Info Details -->
+                    <div class="md:col-span-8 space-y-4 text-slate-300 text-sm leading-relaxed">
+                        <div class="bg-slate-900/80 p-5 rounded-2xl border border-purple-900 space-y-3">
+                            <h4 class="font-heading text-base font-bold text-amber-300 border-b border-purple-800 pb-2">
+                                <i class="fa-solid fa-graduation-cap mr-2"></i> Deskripsi Media Pembelajaran
+                            </h4>
+                            <p>
+                                Media pembelajaran berbasis web ini dirancang secara khusus oleh <strong>Bu Yovita Asti Pratiwi</strong> untuk mendukung pembelajaran Bahasa Inggris Kurikulum Merdeka pada jenjang Sekolah Menengah Pertama (SMP) Kelas VIII, khususnya materi <em>Comparison Degree</em>.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-purple-900">
+                                <div class="text-xs text-amber-400 font-bold mb-1"><i class="fa-solid fa-users mr-1"></i> Sasaran Pengguna</div>
+                                <div class="text-white font-medium">Siswa Kelas VIII SMP</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-purple-900">
+                                <div class="text-xs text-amber-400 font-bold mb-1"><i class="fa-solid fa-laptop-code mr-1"></i> Teknologi Utama</div>
+                                <div class="text-white font-medium">HTML5, Tailwind CSS, & Web Audio</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-purple-900/50 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>© 2026 Media Pembelajaran Interaktif Comparison Degree • Developed by <span class="text-amber-300 font-semibold">Yovita Asti Pratiwi</span></p>
+            <p class="text-slate-400">Dikembangkan untuk Pembelajaran Bahasa Inggris SMP Kelas VIII</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & GAMIFICATION -->
+    <script>
+        // Web Audio API Synthesizer for Interactive Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(freq, type, duration) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio play blocked by browser policy");
+            }
+        }
+
+        function soundCorrect() {
+            playSound(523.25, 'triangle', 0.2); // C5
+            setTimeout(() => playSound(659.25, 'triangle', 0.3), 150); // E5
+        }
+
+        function soundWrong() {
+            playSound(220, 'sawtooth', 0.3); // A3
+        }
+
+        function soundClick() {
+            playSound(440, 'sine', 0.08); // A4
+        }
+
+        // Web Speech API for English Pronunciation
+        function speakText(text) {
+            soundClick();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Fitur pengucapan suara tidak didukung di browser ini.");
+            }
+        }
+
+        function switchTab(tabId) {
+            soundClick();
+            // Hide all tab content sections
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Show selected tab
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Update active state in navbar
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-semibold', 'shadow-md');
+                btn.classList.add('text-slate-300');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-amber-500', 'text-slate-950', 'font-semibold', 'shadow-md');
+                activeBtn.classList.remove('text-slate-300');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            soundClick();
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Dictionary Data Array
+        const adjectiveData = [
+            { pos: "tall", comp: "taller", sup: "the tallest", meaning: "tinggi" },
+            { pos: "short", comp: "shorter", sup: "the shortest", meaning: "pendek" },
+            { pos: "big", comp: "bigger", sup: "the biggest", meaning: "besar" },
+            { pos: "small", comp: "smaller", sup: "the smallest", meaning: "kecil" },
+            { pos: "fast", comp: "faster", sup: "the fastest", meaning: "cepat" },
+            { pos: "beautiful", comp: "more beautiful", sup: "the most beautiful", meaning: "cantik / indah" },
+            { pos: "expensive", comp: "more expensive", sup: "the most expensive", meaning: "mahal" },
+            { pos: "good", comp: "better", sup: "the best", meaning: "baik (Irregular)" },
+            { pos: "bad", comp: "worse", sup: "the worst", meaning: "buruk (Irregular)" },
+            { pos: "far", comp: "farther / further", sup: "the farthest", meaning: "jauh (Irregular)" }
+        ];
+
+        function populateAdjectiveTable() {
+            const tbody = document.getElementById('adjective-table-body');
+            tbody.innerHTML = '';
+            adjectiveData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-purple-900/20 transition border-b border-purple-900/30";
+                tr.innerHTML = `
+                    <td class="p-3.5 font-bold text-amber-300">${item.pos}</td>
+                    <td class="p-3.5">${item.comp}</td>
+                    <td class="p-3.5 text-amber-200">${item.sup}</td>
+                    <td class="p-3.5 text-slate-300 italic">${item.meaning}</td>
+                    <td class="p-3.5 text-center">
+                        <button onclick="speakText('${item.pos}, ${item.comp}, ${item.sup}')" class="p-2 rounded-lg bg-purple-800/60 hover:bg-amber-400 hover:text-slate-950 text-amber-300 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterAdjectiveTable() {
+            const query = document.getElementById('table-search').value.toLowerCase();
+            const rows = document.querySelectorAll('#adjective-table-body tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Quiz Questions Data
+        const quizQuestions = [
+            {
+                question: "An elephant is ________ than a cat.",
+                options: ["bigger", "as big as", "biggest", "more big"],
+                answer: 0,
+                explanation: "Gunakan 'bigger' (comparative) karena membandingkan gajah dan kucing dengan kata pembanding 'than'."
+            },
+            {
+                question: "Gold is ________ than silver.",
+                options: ["expensive", "more expensive", "most expensive", "expensiver"],
+                answer: 1,
+                explanation: "Kata 'expensive' memiliki lebih dari 2 suku kata, sehingga menggunakan 'more expensive'."
+            },
+            {
+                question: "The blue whale is the ________ animal in the world.",
+                options: ["big", "bigger", "biggest", "more big"],
+                answer: 2,
+                explanation: "Gunakan 'biggest' (superlative) karena membandingkan paus biru dengan seluruh hewan di dunia."
+            },
+            {
+                question: "Budi got 100 on his English test. His score is the ________ in class.",
+                options: ["good", "better", "best", "goodest"],
+                answer: 2,
+                explanation: "Bentuk Superlative dari kata sifat 'good' adalah 'the best' (Irregular Adjective)."
+            },
+            {
+                question: "Siti is ________ tall ________ Maya.",
+                options: ["more / than", "as / as", "the / est", "most / of"],
+                answer: 1,
+                explanation: "Penggunaan 'as ... as' menunjukkan tingkat kesetaraan (Positive Degree)."
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let quizUserAnswers = Array(quizQuestions.length).fill(null);
+
+        function loadQuestion() {
+            const q = quizQuestions[currentQuestionIdx];
+            document.getElementById('quiz-progress-text').innerText = `Soal ${currentQuestionIdx + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIdx + 1) / quizQuestions.length) * 100}%`;
+            document.getElementById('quiz-question-text').innerText = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const isSelected = quizUserAnswers[currentQuestionIdx] === idx;
+                const btn = document.createElement('button');
+                btn.onclick = () => selectOption(idx);
+                btn.className = `w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-center justify-between text-sm sm:text-base font-medium ${
+                    isSelected 
+                    ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-lg font-bold' 
+                    : 'bg-slate-900/80 text-slate-200 border-purple-800 hover:border-amber-400/50 hover:bg-slate-800'
+                }`;
+                btn.innerHTML = `
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    ${isSelected ? '<i class="fa-solid fa-circle-check text-slate-950 text-lg"></i>' : ''}
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Update Feedback Box
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            if (quizUserAnswers[currentQuestionIdx] !== null) {
+                const userAns = quizUserAnswers[currentQuestionIdx];
+                feedbackBox.classList.remove('hidden');
+                if (userAns === q.answer) {
+                    feedbackBox.className = "p-4 rounded-xl mb-6 text-sm font-semibold border flex items-center space-x-3 bg-emerald-950/80 border-emerald-500 text-emerald-300";
+                    document.getElementById('quiz-feedback-icon').className = "fa-solid fa-circle-check text-emerald-400";
+                    document.getElementById('quiz-feedback-text').innerText = "Jawaban Tepat! " + q.explanation;
+                } else {
+                    feedbackBox.className = "p-4 rounded-xl mb-6 text-sm font-semibold border flex items-center space-x-3 bg-rose-950/80 border-rose-500 text-rose-300";
+                    document.getElementById('quiz-feedback-icon').className = "fa-solid fa-circle-xmark text-rose-400";
+                    document.getElementById('quiz-feedback-text').innerText = "Jawaban Kurang Tepat. " + q.explanation;
+                }
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            // Update Prev button disabled
+            document.getElementById('quiz-prev-btn').disabled = currentQuestionIdx === 0;
+
+            // Next or Finish button
+            const nextBtn = document.getElementById('quiz-next-btn');
+            if (currentQuestionIdx === quizQuestions.length - 1) {
+                nextBtn.innerHTML = 'Selesaikan Kuis <i class="fa-solid fa-flag-checkered ml-2"></i>';
+            } else {
+                nextBtn.innerHTML = 'Selanjutnya <i class="fa-solid fa-arrow-right ml-2"></i>';
+            }
+        }
+
+        function selectOption(idx) {
+            soundClick();
+            quizUserAnswers[currentQuestionIdx] = idx;
+            const q = quizQuestions[currentQuestionIdx];
+            if (idx === q.answer) {
+                soundCorrect();
+            } else {
+                soundWrong();
+            }
+            updateQuizScore();
+            loadQuestion();
+        }
+
+        function updateQuizScore() {
+            let score = 0;
+            quizUserAnswers.forEach((ans, i) => {
+                if (ans === quizQuestions[i].answer) score += 20;
+            });
+            document.getElementById('quiz-score-badge').innerText = `Skor: ${score}`;
+            return score;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIdx < quizQuestions.length - 1) {
+                currentQuestionIdx++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIdx > 0) {
+                currentQuestionIdx--;
+                loadQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            const finalScore = updateQuizScore();
+            document.getElementById('quiz-container').classList.add('hidden');
+            const modal = document.getElementById('quiz-result-modal');
+            modal.classList.remove('hidden');
+            document.getElementById('final-score-text').innerText = finalScore;
+
+            let msg = "Terus tingkatkan belajarmu ya!";
+            if (finalScore >= 80) {
+                msg = "Luar Biasa! Kamu adalah Comparison Degree Master! 🚀";
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else if (finalScore >= 60) {
+                msg = "Bagus sekali! Pelajari lagi beberapa poin kecil.";
+            }
+            document.getElementById('final-score-msg').innerText = msg;
+        }
+
+        function resetQuiz() {
+            currentQuestionIdx = 0;
+            quizUserAnswers = Array(quizQuestions.length).fill(null);
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result-modal').classList.add('hidden');
+            document.getElementById('certificate-display').classList.add('hidden');
+            updateQuizScore();
+            loadQuestion();
+        }
+
+        function generateCertificate() {
+            const name = document.getElementById('student-name-input').value.trim();
+            if (!name) {
+                alert("Silakan masukkan nama lengkap kamu terlebih dahulu!");
+                return;
+            }
+            soundCorrect();
+            document.getElementById('cert-name').innerText = name;
+            const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('cert-date').innerText = today;
+            document.getElementById('certificate-display').classList.remove('hidden');
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+        }
+
+        // Drag and Drop Game Items Data
+        const dragItemsData = [
+            { id: "item-1", text: "As tall as", category: "positive" },
+            { id: "item-2", text: "Faster than", category: "comparative" },
+            { id: "item-3", text: "The highest", category: "superlative" },
+            { id: "item-4", text: "As smart as", category: "positive" },
+            { id: "item-5", text: "More famous", category: "comparative" },
+            { id: "item-6", text: "The most beautiful", category: "superlative" }
+        ];
+
+        let selectedClickItem = null;
+
+        function initDragGame() {
+            const pool = document.getElementById('drag-source-pool');
+            pool.innerHTML = '';
+
+            // Reset target dropzones
+            document.querySelectorAll('.dropzone').forEach(dz => dz.innerHTML = '');
+
+            // Shuffle pool items
+            const shuffled = [...dragItemsData].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(item => {
+                const el = document.createElement('div');
+                el.id = item.id;
+                el.setAttribute('draggable', 'true');
+                el.dataset.category = item.category;
+                el.className = 'draggable px-4 py-2.5 bg-gradient-to-r from-purple-800 to-indigo-800 text-amber-300 font-bold rounded-xl border border-amber-400/40 text-sm shadow-md transition-all duration-200 hover:scale-105';
+                el.innerText = item.text;
+
+                // Desktop Drag Events
+                el.addEventListener('dragstart', handleDragStart);
+
+                // Mobile/Click Tap Fallback
+                el.addEventListener('click', () => handleItemClick(el));
+
+                pool.appendChild(el);
+            });
+
+            // Set Dropzones Event Listeners
+            document.querySelectorAll('.dropzone').forEach(dz => {
+                dz.addEventListener('dragover', handleDragOver);
+                dz.addEventListener('dragleave', handleDragLeave);
+                dz.addEventListener('drop', handleDrop);
+                dz.addEventListener('click', () => handleDropzoneClick(dz));
+            });
+        }
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            soundClick();
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropzone = e.currentTarget;
+            dropzone.classList.remove('drag-over');
+            const id = e.dataTransfer.getData('text/plain');
+            const draggedEl = document.getElementById(id);
+            if (draggedEl) {
+                dropzone.appendChild(draggedEl);
+                soundClick();
+            }
+        }
+
+        function handleItemClick(el) {
+            soundClick();
+            if (selectedClickItem) {
+                selectedClickItem.classList.remove('ring-4', 'ring-amber-400');
+            }
+            selectedClickItem = el;
+            el.classList.add('ring-4', 'ring-amber-400');
+        }
+
+        function handleDropzoneClick(dz) {
+            if (selectedClickItem) {
+                dz.appendChild(selectedClickItem);
+                selectedClickItem.classList.remove('ring-4', 'ring-amber-400');
+                selectedClickItem = null;
+                soundClick();
+            }
+        }
+
+        function checkDragGame() {
+            let total = 0;
+            let correct = 0;
+
+            document.querySelectorAll('.dropzone').forEach(dz => {
+                const targetCat = dz.dataset.category;
+                const children = dz.querySelectorAll('.draggable');
+                children.forEach(child => {
+                    total++;
+                    if (child.dataset.category === targetCat) {
+                        correct++;
+                        child.classList.remove('border-rose-500', 'from-rose-800');
+                        child.classList.add('border-emerald-400', 'from-emerald-800');
+                    } else {
+                        child.classList.remove('border-emerald-400', 'from-emerald-800');
+                        child.classList.add('border-rose-500', 'from-rose-800');
+                    }
+                });
+            });
+
+            if (total < dragItemsData.length) {
+                alert("Harap tempatkan semua kata sifat ke dalam kotak kategori terlebih dahulu!");
+                return;
+            }
+
+            if (correct === dragItemsData.length) {
+                soundCorrect();
+                confetti({ particleCount: 100, spread: 70 });
+                alert("Luar Biasa! Semua pengelompokan kata sifat tepat! 🎉");
+            } else {
+                soundWrong();
+                alert(`Kamu berhasil menjawab ${correct} dari ${dragItemsData.length} dengan benar. Periksa kembali kotak bertanda merah!`);
+            }
+        }
+
+        function resetDragGame() {
+            soundClick();
+            initDragGame();
+        }
+
+        // Initialize Web Application On Load
+        window.onload = function() {
+            populateAdjectiveTable();
+            loadQuestion();
+            initDragGame();
+        };
+    </script>
+</body>
+</html>
